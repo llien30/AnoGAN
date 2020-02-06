@@ -57,10 +57,10 @@ class Discriminator(nn.Module):
     '''
     DCGAN Discriminator network
     '''
-    def __init__(self, image_size, z_dim, channel, ndf, n_extra_layers=0, add_final_conv=True):
+    def __init__(self, input_size, z_dim, channel, ndf, n_extra_layers=0, add_final_conv=True):
         super(Discriminator, self).__init__()
 
-        assert image_size%16 == 0, 'image_size has to be a multiple of 16'
+        assert input_size%16 == 0, 'input_size has to be a multiple of 16'
 
         main = nn.Sequential()
         main.add_module('first_conv-{}-{}'.format(channel, ndf),
@@ -69,7 +69,7 @@ class Discriminator(nn.Module):
                         nn.BatchNorm2d(ndf))
         main.add_module('first_LeakyReLU-{}'.format(ndf),
                         nn.LeakyReLU(inplace=True))
-        csize, cndf = image_size//2, ndf
+        csize, cndf = input_size//2, ndf
 
 
         for _ in range(n_extra_layers):
@@ -100,7 +100,44 @@ class Discriminator(nn.Module):
 
     def forward(self, input):
         output = self.main(input)
-        
+
         return output
+
+class NetD(nn.Module):
+    '''
+    Discriminator
+    '''
+    def __init__(self, CONFIG):
+        super(NetD, self).__init__()
+
+        model = Discriminator(CONFIG.input_size, CONFIG.z_dim, CONFIG.channel, CONFIG.ndf, CONFIG.extralayer)
+        layers = list(model.main.children())
+
+        #to output feature, separate the network
+        self.feature = nn.Sequential(*layers[:-1])
+        self.classifier = nn.Sequentisl(layers[-1])
+        #add the normalize layer
+        self.classifier.add_module('Sigmoid', nn.Sigmoid())
+
+    def forward(self, x):
+        feature = self.feature(x)
+        classifier = self.classifier(feature)
+        classifier = classifier.view(-1,1).squeeze(1)
+
+        return classifier, feature
+
+
+class NetG(nn.Module):
+    '''
+    Generator
+    '''
+    def __init__(self, CONFIG):
+        super(NetG, self).__init__()
+        self.generator = Generator(CONFIG.input_size, CONFIG.z_dim, CONFIG.channel, CONFIG.ngf, CONFIG.extralayer)
+
+    def forward(self, z):
+        gan_img = self.generator(z)
+        return gan_img
+
 
 
