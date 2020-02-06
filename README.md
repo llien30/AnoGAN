@@ -5,8 +5,8 @@
 input_size: 64
 z_dim: 20
 channel: 1
-ngf: 64 #same as the input_size
-ndf: 64 #same as the input_size
+ngf: 64 
+ndf: 64 
 extralayer: 0
 
 ```
