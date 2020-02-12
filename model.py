@@ -105,7 +105,7 @@ class Discriminator(nn.Module):
 
 class NetD(nn.Module):
     '''
-    Discriminator
+    the network of the Discriminator
     '''
     def __init__(self, CONFIG):
         super(NetD, self).__init__()
@@ -129,7 +129,7 @@ class NetD(nn.Module):
 
 class NetG(nn.Module):
     '''
-    Generator
+    the network of the Generator
     '''
     def __init__(self, CONFIG):
         super(NetG, self).__init__()

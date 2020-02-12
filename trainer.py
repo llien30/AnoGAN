@@ -7,7 +7,7 @@ from PIL import save_image
 
 import wandb
 
-def train(G, D, dataloader, num_epochs, num_fakeimg, no_wandb):
+def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print('Device :', device)
 
@@ -19,9 +19,6 @@ def train(G, D, dataloader, num_epochs, num_fakeimg, no_wandb):
 
     #Binary Cross Entropy
     criterion = nn.BCEWithLogitsLoss(reduction='mean')
-
-    #the dimention of z
-    z_dim = 20 
 
     #the default mini batch size
     mini_batch_size = 64

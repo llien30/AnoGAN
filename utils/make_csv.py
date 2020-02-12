@@ -4,7 +4,7 @@ import pandas as pd
 import os
 
 def get_arguments():
-    parser = argparse.ArgumentParser(description='make csv files for data loader')
+    parser = argparse.ArgumentParser(description='make csv files')
 
     parser.add_argument(
         '--dataset_dir',
