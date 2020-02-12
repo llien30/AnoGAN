@@ -24,5 +24,5 @@ save_dir: ./weights
 name: first
 ```
 
-## :grey_exclamation:Attention
+## :exclamation:Attention
 If you want to change the project on **wandb**, you have to change *"project name"* in **train.py**
