@@ -6,15 +6,15 @@ import os
 def get_arguments():
     parser = argparse.ArgumentParser(description='make csv files for data loader')
 
-    parser.get_argument(
+    parser.add_argument(
         '--dataset_dir',
         type = str,
         default = './data',
         help = 'input the PATH of the directry where the dataset is saved')
 
-    parser.get_argument(
+    parser.add_argument(
         '--save_dir',
-        typr = str,
+        type = str,
         default = './csv',
         help = 'input the PATH of the directry where the csv files will be saved')
 
