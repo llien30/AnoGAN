@@ -16,6 +16,11 @@ ngf: 64
 ndf: 64 
 extralayer: 0
 
+num_epochs: 500
+num_fakeimage: 5
+
+save_dir: ./weights
+
 name: first
 ```
 
