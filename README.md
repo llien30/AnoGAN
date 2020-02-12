@@ -25,4 +25,4 @@ name: first
 ```
 
 ## Attention
-If you want to change the project on **wandb**, you have to change *project name* in **train.py**
+If you want to change the project on **wandb**, you have to change *"project name"* in **train.py**
