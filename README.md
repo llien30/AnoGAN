@@ -1,7 +1,7 @@
 # AnoGAN
 
 ## Requirement
-Python : 3.x
+Python : 3.x\
 PyTorch >= 1.0
 
 You can download the package of Python from `pip install -r requirements.txt`:+1:
