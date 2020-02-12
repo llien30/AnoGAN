@@ -17,7 +17,7 @@ class Generator(nn.Module):
 
         main.add_module('initial_convt-{}-{}'.format(z_dim, cngf),
                         nn.ConvTranspose2d(z_dim, cngf, kernel_size=4, stride=1, padding=0, bias=False))
-        main.add_module('initial_BatchNorm-{}-{}'.format(cngf),
+        main.add_module('initial_BatchNorm-{}'.format(cngf),
                         nn.BatchNorm2d(cngf))
         main.add_module('initial_ReLU-{}'.format(cngf),
                         nn.ReLU(inplace=True))
