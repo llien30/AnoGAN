@@ -23,7 +23,7 @@ def get_parameters():
     parser = argparse.ArgumentParser(
         description='take parameters like num_epochs ...')
 
-    parser.add_argument('config', type=str, help='path of a config file')
+    parser.add_argument('config', type=str, help='path of a config file for the training')
 
     parser.add_argument(
         '--no_wandb',
@@ -49,7 +49,7 @@ mean = (0.5,)
 std = (0.5,)
 
 train_dataset = Dataset(
-    csv_file=CONFIG.csv_file, transform=ImageTransform(mean, std))
+    csv_file=CONFIG.train_csv_file, transform=ImageTransform(mean, std))
 
 train_dataloader = DataLoader(
     train_dataset, batch_size=CONFIG.batch_size, shuffle=True)
@@ -58,6 +58,11 @@ G = NetG(CONFIG)
 D = NetD(CONFIG)
 G.apply(weights_init)
 D.apply(weights_init)
+
+if not args.no_wandb:
+    # Magic
+    wandb.watch(G, log='all')
+    wandb.watch(D, log='all')
 
 G_update, D_update = train_model(
     G, D, z_dim=CONFIG.z_dim, dataloader=train_dataloader,
