@@ -1,6 +1,6 @@
 # AnoGAN
 
-## Requirement
+## Requirements
 Python : 3.x\
 PyTorch >= 1.0
 
