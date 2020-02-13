@@ -1,3 +1,7 @@
 *.jpg
 .vscode
 requirements.txt
+wandb
+__pycache__
+./libs/__pycache__
+fake_imges.png

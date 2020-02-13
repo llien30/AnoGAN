@@ -11,7 +11,7 @@ from model import NetD, NetG
 from libs.dataloader import Dataset
 from libs.transform import ImageTransform
 from libs.weights import weights_init
-from trainer import train_model
+from trainer import train
 
 import wandb
 
@@ -64,7 +64,7 @@ if not args.no_wandb:
     wandb.watch(G, log='all')
     wandb.watch(D, log='all')
 
-G_update, D_update = train_model(
+G_update, D_update = train(
     G, D, z_dim=CONFIG.z_dim, dataloader=train_dataloader,
     num_epochs=CONFIG.num_epochs, num_fakeimg=CONFIG.num_fakeimage, no_wandb=args.no_wandb)
 

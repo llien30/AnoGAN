@@ -10,7 +10,7 @@ class Generator(nn.Module):
         assert input_size%16 == 0, 'input_size has to be a multiple of 16.'
 
         main = nn.Sequential()
-        cngf, tisize = ngf/2, 4
+        cngf, tisize = ngf//2, 4
         while tisize != input_size/2:
             cngf *= 2
             tisize *= 2
@@ -25,7 +25,7 @@ class Generator(nn.Module):
         csize = 4
         while csize < input_size//2:
             main.add_module('pyramid_convt-{}-{}'.format(cngf, cngf//2),
-                            nn.ConvTranspose2d(cngf, cngf//2, kernal_size=4, stride=2, padding=1 bias=False))
+                            nn.ConvTranspose2d(cngf, cngf//2, kernel_size=4, stride=2, padding=1 ,bias=False))
             main.add_module('pyramid_BatchNorm-{}'.format(cngf//2),
                             nn.BatchNorm2d(cngf//2))
             main.add_module('pyramid_ReLU-{}'.format(cngf//2),
@@ -115,7 +115,7 @@ class NetD(nn.Module):
 
         #to output feature, separate the network
         self.feature = nn.Sequential(*layers[:-1])
-        self.classifier = nn.Sequentisl(layers[-1])
+        self.classifier = nn.Sequential(layers[-1])
         #add the normalize layer
         self.classifier.add_module('Sigmoid', nn.Sigmoid())
 

@@ -2,6 +2,7 @@
 train_csv_file: ./csv/train.csv
 
 input_size: 64
+batch_size: 16
 
 # training hyper parameters
 z_dim: 20

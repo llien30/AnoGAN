@@ -16,6 +16,7 @@ You can download the package of Python from `pip install -r requirements.txt`:+1
 #about dataset
 train_csv_file: ./csv/train.csv
 input_size: 64
+batch_size: 16
 
 # training hyper parameters
 z_dim: 20

@@ -3,7 +3,7 @@ import torch.nn as nn
 from torchvision.utils import save_image
 
 import time
-from PIL import save_image
+from PIL import Image
 
 import wandb
 
@@ -15,7 +15,7 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
     beta1, beta2 = 0.0, 0.9
 
     g_optimizer = torch.optim.Adam(G.parameters(), g_lr, [beta1, beta2])
-    d_optimizer = torch.optim.Adam(D.parameters(), d_le, [beta1, beta2])
+    d_optimizer = torch.optim.Adam(D.parameters(), d_lr, [beta1, beta2])
 
     #Binary Cross Entropy
     criterion = nn.BCEWithLogitsLoss(reduction='mean')
@@ -25,8 +25,8 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
 
     fixed_z = torch.randn(num_fakeimg, z_dim, 1, 1).to(device)
 
-    G.to(device)
-    D.to(device)
+    G = G.to(device)
+    D = D.to(device)
 
     G.train()
     D.train()
@@ -34,6 +34,7 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
     torch.backends.cudnn.benchmark = True
 
     nun_train_imgs = len(dataloader.dataset)
+    batch_size = dataloader.batch_size
 
     iteration = 1
     logs = []
@@ -47,14 +48,13 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
         print('Epoch {}/{}'.format(epoch, num_epochs))
         print('---------------------------------------------------')
 
-        r_batch_size = 0
         for sample in dataloader:
-            r_batch_size = r_batch_size + 1
+
             '''
             learning Discriminator
             '''
             imges = sample['img']
-            if imges.size()[0] == 0:
+            if imges.size()[0] == 1:
                 continue
             
             imges = imges.to(device)
@@ -87,7 +87,7 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
             input_z = torch.randn(mini_batch_size, z_dim, 1, 1).to(device)
 
             fake_imges = G(input_z)
-            d_out_fake = D(fake_imges)
+            d_out_fake, _ = D(fake_imges)
 
             g_loss = criterion(d_out_fake.view(-1), label_real)
 
@@ -104,7 +104,7 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
         t_epoch_finish = time.time()
         print('---------------------------------------------------')
         print('Epoch {} | | Epoch_D_Loss :{:.4f} || Epoch_G_Loss :{:.4f}'.format(
-            epoch, epoch_d_loss/r_batch_size, epoch_g_loss/r_batch_size))
+            epoch, epoch_d_loss/batch_size, epoch_g_loss/batch_size))
         print('timer:  {:.4f} sec.'.format(t_epoch_finish - t_epoch_start))
 
         fake_imges = G(fixed_z)
@@ -113,18 +113,17 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
         if not no_wandb:
             wandb.log({
                 'train_time': t_epoch_finish - t_epoch_start,
-                'd_loss': epoch_d_loss/r_batch_size,
-                'g_loss': epoch_g_loss/r_batch_size
+                'd_loss': epoch_d_loss/batch_size,
+                'g_loss': epoch_g_loss/batch_size
             }, step=epoch)
 
-            img = Image.open('fake_images.png')
+            img = Image.open('fake_imges.png')
             wandb.log({
                 "image": [wandb.Image(img)]
             }, step=epoch)
 
             t_epoch_start = time.time()
 
-        
     return G, D
             
 
