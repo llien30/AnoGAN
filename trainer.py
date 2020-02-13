@@ -25,8 +25,8 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
 
     fixed_z = torch.randn(num_fakeimg, z_dim, 1, 1).to(device)
 
-    G = G.to(device)
-    D = D.to(device)
+    G.to(device)
+    D.to(device)
 
     G.train()
     D.train()
@@ -54,8 +54,8 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
             learning Discriminator
             '''
             imges = sample['img']
-            if imges.size()[0] == 1:
-                continue
+#            if imges.size()[0] == 1:
+#                continue
             
             imges = imges.to(device)
             mini_batch_size = imges.size()[0]

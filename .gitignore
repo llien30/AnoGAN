@@ -5,3 +5,5 @@ wandb
 __pycache__
 ./libs/__pycache__
 fake_imges.png
+weights
+.py
