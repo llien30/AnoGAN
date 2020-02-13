@@ -10,9 +10,10 @@ You can download the package of Python from `pip install -r requirements.txt`:+1
 ## About CONFIG file
 
 .yaml file must be written in the fallowing format.
+
 ### for training
 
-```
+```.yaml
 #about dataset
 train_csv_file: ./csv/train.csv
 input_size: 64
@@ -36,7 +37,8 @@ name: first
 ```
 
 ### for anomaly detection
-```
+
+```.yaml
 test_csv_file: ./csv/test.csv
 test_save_dir: ./result
 
