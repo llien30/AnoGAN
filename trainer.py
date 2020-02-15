@@ -7,6 +7,7 @@ from PIL import Image
 
 import wandb
 
+
 def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print('Device :', device)
@@ -17,10 +18,10 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
     g_optimizer = torch.optim.Adam(G.parameters(), g_lr, [beta1, beta2])
     d_optimizer = torch.optim.Adam(D.parameters(), d_lr, [beta1, beta2])
 
-    #Binary Cross Entropy
+    # Binary Cross Entropy
     criterion = nn.BCEWithLogitsLoss(reduction='mean')
 
-    #the default mini batch size
+    # the default mini batch size
     mini_batch_size = 64
 
     fixed_z = torch.randn(num_fakeimg, z_dim, 1, 1).to(device)
@@ -33,11 +34,10 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
 
     torch.backends.cudnn.benchmark = True
 
-    nun_train_imgs = len(dataloader.dataset)
+    num_train_imgs = len(dataloader.dataset)
     batch_size = dataloader.batch_size
 
     iteration = 1
-    logs = []
 
     for epoch in range(num_epochs):
         t_epoch_start = time.time()
@@ -48,22 +48,23 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
         print('Epoch {}/{}'.format(epoch, num_epochs))
         print('---------------------------------------------------')
 
-        for sample in dataloader:
+        for samples in dataloader:
 
             '''
             learning Discriminator
             '''
-            imges = sample['img']
-#            if imges.size()[0] == 1:
-#                continue
-            
+            imges = samples['img']
+            # if imges.size()[0] == 1:
+            # continue
+
             imges = imges.to(device)
             mini_batch_size = imges.size()[0]
-
-            label_real = torch.full((mini_batch_size, ),1).to(device)
-            label_fake = torch.full((mini_batch_size, ),0).to(device)
+            # print(mini_batch_size)
+            label_real = torch.full((mini_batch_size, ), 1).to(device)
+            label_fake = torch.full((mini_batch_size, ), 0).to(device)
 
             d_out_real, _ = D(imges)
+            # print(d_out_real)
 
             input_z = torch.randn(mini_batch_size, z_dim, 1, 1).to(device)
 
@@ -93,7 +94,7 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
             # print(g_loss)
             g_optimizer.zero_grad()
             d_optimizer.zero_grad()
-            
+
             g_loss.backward()
             g_optimizer.step()
 
@@ -109,7 +110,7 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
 
         fake_imges = G(fixed_z)
         save_image(fake_imges, 'fake_imges.png')
-        
+
         if not no_wandb:
             wandb.log({
                 'train_time': t_epoch_finish - t_epoch_start,
@@ -125,5 +126,3 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
             t_epoch_start = time.time()
 
     return G, D
-            
-

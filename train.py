@@ -6,8 +6,8 @@ from addict import Dict
 import os
 import argparse
 
-# from model import NetD, NetG
-from libs.model import NetG, NetD
+from model import NetD, NetG
+# from libs.model import NetG, NetD
 
 from libs.dataloader import Dataset
 from libs.transform import ImageTransform

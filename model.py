@@ -92,6 +92,7 @@ class Discriminator(nn.Module):
             cndf *= 2
             csize //= 2
 
+        # feature map to latent vector
         if add_final_conv:
             main.add_module('last_conv-{}-{}'.format(cndf, 1),
                             nn.Conv2d(cndf, 1, kernel_size=4, stride=1, padding=0))
