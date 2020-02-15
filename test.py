@@ -7,8 +7,8 @@ from libs.loss import Anomaly_Score
 from torchvision.utils import save_image
 from addict import Dict
 import numpy as np
-import pandas as pd
 from PIL import Image
+import pandas as pd
 
 import wandb
 
@@ -41,7 +41,7 @@ if not args.no_wandb:
     wandb.init(
         config = CONFIG,
         name = CONFIG.name,
-        project = 'mnist',  #have to change when you want to change project
+        project = 'mnist',  # have to change when you want to change project
         job_type = 'anomaly detection'
     )
 

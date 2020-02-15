@@ -10,7 +10,7 @@ def get_arguments():
         '--dataset_dir',
         type = str,
         default = './data',
-        help = 'input the PATH of the directry where the dataset is saved')
+        help = 'input the PATH of the directry where the datasets are saved')
 
     parser.add_argument(
         '--save_dir',

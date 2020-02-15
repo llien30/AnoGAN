@@ -11,7 +11,7 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print('Device :', device)
 
-    g_lr, d_lr = 0.0001, 0.0004
+    g_lr, d_lr = 0.001, 0.004
     beta1, beta2 = 0.0, 0.9
 
     g_optimizer = torch.optim.Adam(G.parameters(), g_lr, [beta1, beta2])
@@ -74,7 +74,7 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
             d_loss_fake = criterion(d_out_fake.view(-1), label_fake)
 
             d_loss = d_loss_real + d_loss_fake
-
+            # print(d_loss)
             g_optimizer.zero_grad()
             d_optimizer.zero_grad()
 
@@ -90,7 +90,7 @@ def train(G, D, z_dim, dataloader, num_epochs, num_fakeimg, no_wandb):
             d_out_fake, _ = D(fake_imges)
 
             g_loss = criterion(d_out_fake.view(-1), label_real)
-
+            # print(g_loss)
             g_optimizer.zero_grad()
             d_optimizer.zero_grad()
             

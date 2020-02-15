@@ -1,12 +1,5 @@
 # AnoGAN
 
-## Requirements
-
-Python : 3.x\
-PyTorch >= 1.0
-
-You can download the package of Python from `pip install -r requirements.txt`:+1:
-
 ## About CONFIG file
 
 .yaml file must be written in the fallowing format.
@@ -14,7 +7,7 @@ You can download the package of Python from `pip install -r requirements.txt`:+1
 ### for training
 
 ```.yaml
-#about dataset
+# about dataset
 train_csv_file: ./csv/train.csv
 input_size: 64
 batch_size: 16
@@ -49,6 +42,6 @@ z_dim: 20
 name: first_test
 ```
 
-## :exclamation:Attention
+## Attention
 
-If you want to change the project on **wandb**, you have to change *"project name"* in **train.py**
+If you want to change the project at **wandb**, you have to change *"project name"* in **train.py**

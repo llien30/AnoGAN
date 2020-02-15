@@ -1,6 +1,5 @@
 *.jpg
 .vscode
-requirements.txt
 wandb
 __pycache__
 ./libs/__pycache__

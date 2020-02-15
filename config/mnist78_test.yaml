@@ -3,6 +3,6 @@ test_save_dir: ./result
 
 # test parameters
 test_batch_size: 5
-z_dim: 20 #same as the training z_dim
+z_dim: 20 # same as the training z_dim
 
 name: mnist78-2020-02-12_test
