@@ -6,3 +6,5 @@ __pycache__
 fake_imges.png
 weights
 .py
+*.png
+result

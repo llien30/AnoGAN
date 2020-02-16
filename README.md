@@ -32,12 +32,19 @@ name: first
 ### for anomaly detection
 
 ```.yaml
+name: mnist78-2020-02-12_test
+
 test_csv_file: ./csv/test.csv
 test_save_dir: ./result
 
+input_size: 64
 # test parameters
 test_batch_size: 5
-z_dim: 20
+z_dim: 20 # same as the training z_dim
+channel: 1
+ngf: 64 # same as the input_size
+ndf: 64 # same as the input_size
+extralayer: 0
 
 name: first_test
 ```
